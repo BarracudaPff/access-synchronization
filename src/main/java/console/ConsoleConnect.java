@@ -1,7 +1,11 @@
 package console;
 
 import connection.Connector;
+import exceptions.ConnectWithLoginException;
+import exceptions.ConnectWithTokenException;
+import exceptions.NotConnectedException;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import static console.Console.ConsoleStrings.*;
@@ -36,6 +40,17 @@ public class ConsoleConnect extends Console {
                     default:
                         wrongCommand();
                 }
+            } catch (ConnectWithLoginException e) {
+                errorCommand("Error happened while connecting  with login: "
+                        + e.getLogin() + " and password " + e.getPass() + " :(\n" +
+                        "Try again or type back.");
+            } catch (ConnectWithTokenException e) {
+                errorCommand("Error happened while connecting  with token: "
+                        + e.getToken() + ":(\n" +
+                        "Try again or type back.");
+            } catch (NotConnectedException e) {
+                errorCommand("You are not connected :(\n" +
+                        "Back to main commands. Type connect to connect.");
             } catch (Exception e) {
                 errorCommand("Error happened while connecting :(\n" +
                         "Try again or type back.");

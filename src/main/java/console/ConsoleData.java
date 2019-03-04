@@ -1,6 +1,7 @@
 package console;
 
 import connection.Connector;
+import exceptions.NoOrganisationException;
 import org.kohsuke.github.GHTeam;
 import org.kohsuke.github.GHUser;
 
@@ -54,11 +55,15 @@ public class ConsoleData extends Console{
                     default:
                         wrongCommand();
                 }
-            } catch (Exception e) {
-                errorCommand("Error happened while connecting :(\n" +
-                        "Try again or type back.");
+            } catch (NoOrganisationException e) {
+                errorCommand("You didn't choose organisation :(\n" +
+                        "Try organisation or type back.");
                 e.printStackTrace();
-            }
+            } catch (Exception e) {
+            errorCommand("Error happened while connecting :(\n" +
+                    "Try again or type back.");
+            e.printStackTrace();
+        }
         }
     }
 
@@ -108,6 +113,6 @@ public class ConsoleData extends Console{
 
     private void checkOrganisation() throws Exception {
         if (organization == null)
-            throw new Exception();
+            throw new NoOrganisationException();
     }
 }

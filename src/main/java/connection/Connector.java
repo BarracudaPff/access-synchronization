@@ -1,5 +1,8 @@
 package connection;
 
+import exceptions.ConnectWithLoginException;
+import exceptions.ConnectWithTokenException;
+import exceptions.NotConnectedException;
 import org.kohsuke.github.GitHub;
 
 import java.io.IOException;
@@ -26,7 +29,7 @@ public class Connector {
             this.tocken = token;
             isToken = true;
         } catch (IOException e) {
-            throw new Exception();
+            throw new ConnectWithTokenException(token);
         }
     }
 
@@ -37,7 +40,7 @@ public class Connector {
             this.password = password;
             isLogin = true;
         } catch (IOException e) {
-            throw new Exception();
+            throw new ConnectWithLoginException(login, password);
         }
     }
 
@@ -50,6 +53,6 @@ public class Connector {
             return GitHub.connectUsingPassword(login, password);
         else if (isToken)
             return GitHub.connectUsingOAuth(tocken);
-        else throw new Exception();
+        else throw new NotConnectedException();
     }
 }
